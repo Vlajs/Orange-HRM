@@ -14,10 +14,29 @@ public class BasePage {
     public WebDriverWait driverWait;
     public BasePage(WebDriver driver){
         this.driver = driver;
-        driverWait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        driverWait = new WebDriverWait(driver, Duration.ofSeconds(20));/*
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driverWait.until(webDriver -> ((JavascriptExecutor) webDriver)
-                .executeScript("return document.readyState").equals("complete"));
+                .executeScript("return document.readyState").equals("complete"));*/
+        driverWait.until(webDriver -> {
+            JavascriptExecutor js = (JavascriptExecutor) webDriver;
+            boolean documentReady = js.executeScript("return document.readyState").equals("complete");
+            boolean noNetworkActivity = (Long) js.executeScript(
+                    "return window.performance.getEntriesByType('resource').filter(e => e.initiatorType === 'xmlhttprequest' || e.initiatorType === 'fetch').length") == 0;
+
+            return documentReady && noNetworkActivity;
+        });
+    }
+
+    public void waitForPageToLoad() {
+        driverWait.until(webDriver -> {
+            JavascriptExecutor js = (JavascriptExecutor) webDriver;
+            boolean documentReady = js.executeScript("return document.readyState").equals("complete");
+            boolean noNetworkActivity = (Long) js.executeScript(
+                    "return window.performance.getEntriesByType('resource').filter(e => e.initiatorType === 'xmlhttprequest' || e.initiatorType === 'fetch').length") == 0;
+
+            return documentReady && noNetworkActivity;
+        });
     }
 
     public void wait (By elementBy){
@@ -124,7 +143,7 @@ public class BasePage {
         js.executeScript("window.open(arguments[0], '_blank');", linkUrl);
         List<String> tabs = new ArrayList<>(driver.getWindowHandles());
         driver.switchTo().window(tabs.get(1));
-        Assert.assertTrue(driver.getCurrentUrl().contains(url));
+        Assert.assertEquals(driver.getCurrentUrl(), url);
         driver.close();
         driver.switchTo().window(tabs.get(0));
     }

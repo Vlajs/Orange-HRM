@@ -16,10 +16,10 @@ public class BrowserSettings {
         driver = new FirefoxDriver(new FirefoxOptions().addArguments("--width=1920", "--height=1080"));
     }
     public void chromeDriver (){
-        String filePath = System.getenv("ChromeExeFilePath");
-        System.setProperty("webdriver.chrome.driver", "src/main/resources/drivers/chromedriver-win64/chromedriver.exe");
+        String chromeExeFilePath = System.getenv("ChromeExeFilePath");
+        System.setProperty("webdriver.chrome.driver", "src/main/resources/drivers/chromedriver.exe");
         ChromeOptions options = new ChromeOptions();
-        options.setBinary(filePath);
+        options.setBinary(chromeExeFilePath);
         options.addArguments("--start-maximized");
         driver = new ChromeDriver(options);
     }

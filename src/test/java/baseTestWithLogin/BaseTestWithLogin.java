@@ -11,7 +11,7 @@ public class BaseTestWithLogin extends BaseTest {
     @Override
     @Parameters({"browser", "url"})
     @BeforeMethod
-    public void setUp(@Optional("chrome") String browser, @Optional("") String url){
+    public void setUp(@Optional("chrome") String browser, @Optional("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login") String url){
         super.setUp(browser, url);
         LandingMethod landingMethod = new LandingMethod(driver);
         landingMethod.successfullyLoginMethod(PropertyManager.getInstance().getUsername(),

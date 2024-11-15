@@ -18,14 +18,14 @@ public class BasePage {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driverWait.until(webDriver -> ((JavascriptExecutor) webDriver)
                 .executeScript("return document.readyState").equals("complete"));*/
-        driverWait.until(webDriver -> {
+        /*driverWait.until(webDriver -> {
             JavascriptExecutor js = (JavascriptExecutor) webDriver;
             boolean documentReady = js.executeScript("return document.readyState").equals("complete");
             boolean noNetworkActivity = (Long) js.executeScript(
                     "return window.performance.getEntriesByType('resource').filter(e => e.initiatorType === 'xmlhttprequest' || e.initiatorType === 'fetch').length") == 0;
 
             return documentReady && noNetworkActivity;
-        });
+        });*/
     }
 
     public void waitForPageToLoad() {

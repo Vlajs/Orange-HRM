@@ -14,29 +14,10 @@ public class BasePage {
     public WebDriverWait driverWait;
     public BasePage(WebDriver driver){
         this.driver = driver;
-        driverWait = new WebDriverWait(driver, Duration.ofSeconds(20));/*
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        driverWait = new WebDriverWait(driver, Duration.ofSeconds(20));
         driverWait.until(webDriver -> ((JavascriptExecutor) webDriver)
-                .executeScript("return document.readyState").equals("complete"));*/
-        /*driverWait.until(webDriver -> {
-            JavascriptExecutor js = (JavascriptExecutor) webDriver;
-            boolean documentReady = js.executeScript("return document.readyState").equals("complete");
-            boolean noNetworkActivity = (Long) js.executeScript(
-                    "return window.performance.getEntriesByType('resource').filter(e => e.initiatorType === 'xmlhttprequest' || e.initiatorType === 'fetch').length") == 0;
+                .executeScript("return document.readyState").equals("complete"));
 
-            return documentReady && noNetworkActivity;
-        });*/
-    }
-
-    public void waitForPageToLoad() {
-        driverWait.until(webDriver -> {
-            JavascriptExecutor js = (JavascriptExecutor) webDriver;
-            boolean documentReady = js.executeScript("return document.readyState").equals("complete");
-            boolean noNetworkActivity = (Long) js.executeScript(
-                    "return window.performance.getEntriesByType('resource').filter(e => e.initiatorType === 'xmlhttprequest' || e.initiatorType === 'fetch').length") == 0;
-
-            return documentReady && noNetworkActivity;
-        });
     }
 
     public void wait (By elementBy){
@@ -128,9 +109,38 @@ public class BasePage {
         js.executeScript("window.scrollBy(0, -200);");
     }
 
+    public boolean assertElementIsDisplayed(By element){
+        wait(element);
+        return driver.findElement(element).isDisplayed();
+    }
+    public boolean assertElementIsDisplayed(WebElement element){
+        wait(element);
+        return element.isDisplayed();
+    }
+
+    public boolean assertElementIsEnabled(By element){
+        wait(element);
+        return driver.findElement(element).isEnabled();
+    }
+    public boolean assertElementIsEnabled(WebElement element){
+        wait(element);
+        return element.isEnabled();
+    }
+
+    public boolean assertElementIsSelected(By element){
+        wait(element);
+        return driver.findElement(element).isSelected();
+    }
+    public boolean assertElementIsSelected(WebElement element){
+        wait(element);
+        return element.isSelected();
+    }
+
     public void assertUrl(String url){
+        driverWait.until(ExpectedConditions.urlToBe(url));
         Assert.assertEquals(driver.getCurrentUrl(), url);
     }
+
     public void assertText(By element, String text){
         Assert.assertEquals(driver.findElement(element).getText(), text);
     }

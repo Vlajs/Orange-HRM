@@ -61,23 +61,7 @@ public class AdminPage extends BasePage{
         clickElement(cancelButtonBy, "cancelButtonBy");
     }
 
-    public void addAdmin(String userRoleText, String employeeNameText, String statusText, String usernameText, String passwordText, String confirmPasswordText) throws InterruptedException {
-        clickOnAdminAddButton();
-        selectInUserRoleField();
-        selectAnOptionForUserRole(userRoleText);
-        typeInEmployeeNameField(employeeNameText);/*
-        Thread.sleep(2000);*/
-        clickOnFirstOptionEmployeeName();
-        clickOnStatusField();
-        selectAnOptionForStatus(statusText);
-        typeInUsernameField(usernameText);
-        typeInPasswordField(passwordText);
-        typeInConfirmPasswordField(confirmPasswordText);
-        clickOnSaveButton();
+    public void assertSuccessfullyAddedUserForAdminSection(){
+        Assert.assertTrue(assertElementIsDisplayed(successfullyAddedUserWidgetBy), "The successfully widget is not displayed!");
     }
-    public void assertSuccessfullyAddedUserForAdminSection(String url){
-        Assert.assertEquals(driver.getCurrentUrl(), url);
-
-    }
-
 }
